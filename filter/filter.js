@@ -42,7 +42,7 @@ var Filter = React.createClass ({
         React.DOM.input({type: "text", value:this.state.filterStr, onChange: this.filterChanged}),
         React.DOM.input({type: 'button', value: 'reset', onClick: this.reset}),
         ),
-        React.DOM.textarea({value: this.state.wordsList.join('\n')})
+        React.DOM.textarea({value: this.state.wordsList.join('\n'), readOnly: true})
       )
          
     },
