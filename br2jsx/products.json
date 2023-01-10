@@ -1,0 +1,5 @@
+[ 
+    {"nam":"компьютер", "code":1, "price":1200, "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyg2W7v7mDYQAmz1TPz7b9j57PfCmJH8vsaA&usqp=CAU", "remainder":10}, 
+    {"nam":"планшет", "code":2, "price":900, "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpf9Q2Yh6ymv_sra58sZCwxwDK57fC8zij2g&usqp=CAU", "remainder":5}, 
+    {"nam":"ноутбук", "code":3, "price":1500, "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlaLfiZCq72pAlrld67r-Dmiq-T1aQs9nHww&usqp=CAU", "remainder":14} 
+]

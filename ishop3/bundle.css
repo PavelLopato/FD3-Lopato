@@ -1,0 +1,35 @@
+table.ishop {
+  border-collapse: collapse;
+}
+
+.Product td {
+  border:  solid black 1px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.Products th {
+  border:  solid black 1px;
+  margin: 0;
+  text-align: center;
+  padding: 2px;
+}
+   
+.Product img {
+  width: 50px;
+  height: auto;
+  padding: 2px;
+}
+.hEADER {
+    font-size: 30px;
+}
+
+input.nAM, .uRL, .pRICE, .rEMAINDER  {
+    margin-bottom: 2px;
+}
+
+.CARD {
+    margin-top: 15px;    
+}
+
+/*# sourceMappingURL=bundle.css.map*/
