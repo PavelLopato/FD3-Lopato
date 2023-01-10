@@ -11,7 +11,7 @@ class Br2jsx extends React.Component {
 
     render () {
 
-      const textArray = this.props.text.match(/[а-я]+/gi);
+      const textArray = this.props.text.split(/<br *\/?>+/gi);
       const textNew = [];
       textArray.forEach((element, i) => {
           if (i) {
