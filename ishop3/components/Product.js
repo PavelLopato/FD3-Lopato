@@ -6,13 +6,14 @@ class Product extends  React.Component {
     static propTypes = {
         code: PropTypes.number.isRequired,
         url: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
+        price: PropTypes.string.isRequired,
         nam: PropTypes.string.isRequired,
-        remainder: PropTypes.number.isRequired, 
+        remainder: PropTypes.string.isRequired, 
         cbSelectedProduct: PropTypes.func.isRequired,
         cbDeleteProduct: PropTypes.func.isRequired,
         cbEditProduct: PropTypes.func.isRequired,
         isSelected: PropTypes.bool,
+        workMode: PropTypes.number.isRequired,
     };  
 
     deleteMe = (eo) => {
@@ -39,8 +40,8 @@ class Product extends  React.Component {
           </td>
           <td className='remainder'>{this.props.remainder}</td>
           <td className='button'>
-            <input type='button' value='edit' onClick={this.editMe} />
-            <input type='button' value='delete' onClick={this.deleteMe} />
+            <input type='button' disabled={this.props.workMode !== 1} value='edit' onClick={this.editMe} />
+            <input type='button' disabled={this.props.workMode !== 1} value='delete' onClick={this.deleteMe} />
           </td>
         </tr>
 
