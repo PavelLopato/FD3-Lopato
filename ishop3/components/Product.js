@@ -14,25 +14,28 @@ class Product extends  React.Component {
         cbEditProduct: PropTypes.func.isRequired,
         isSelected: PropTypes.bool,
         workMode: PropTypes.number.isRequired,
+        permission: PropTypes.bool,
     };  
-
+    
     deleteMe = (eo) => {
       eo.stopPropagation ();
       this.props.cbDeleteProduct (this.props.code);
     };
 
     selectMe = () => {
-      this.props.cbSelectedProduct (this.props.code);
+      if(this.props.permission)
+        this.props.cbSelectedProduct (this.props.code);
     };
 
     editMe = (eo) => {
+      eo.stopPropagation ();
       this.props.cbEditProduct (this.props.code);
     };
 
     render() {
 
       return (
-        <tr key={this.props.code} className='Product' onClick={this.selectMe} style={{backgroundColor:(this.props.isSelected)?'red':'white'}}>
+        <tr key={this.props.code} className='Product' onClick={this.selectMe} style={{backgroundColor:(this.props.isSelected && (this.props.workMode==2||this.props.workMode==4))?'red':'white'}}>
           <td className='nam'>{this.props.nam}</td>
           <td className='price'>{this.props.price}</td>
           <td className='imgs'>
@@ -40,11 +43,10 @@ class Product extends  React.Component {
           </td>
           <td className='remainder'>{this.props.remainder}</td>
           <td className='button'>
-            <input type='button' disabled={this.props.workMode !== 1} value='edit' onClick={this.editMe} />
-            <input type='button' disabled={this.props.workMode !== 1} value='delete' onClick={this.deleteMe} />
+            <input type='button' disabled={!this.props.permission} value='edit' onClick={this.editMe} />
+            <input type='button' disabled={!this.props.permission} value='delete' onClick={this.deleteMe} />
           </td>
         </tr>
-
       )
     }
 }

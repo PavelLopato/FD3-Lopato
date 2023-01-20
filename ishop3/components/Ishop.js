@@ -23,36 +23,41 @@ class Ishop extends React.Component {
       url:'',
       remainder: '',
       code: 0,
+      permission: true,
     };
 
     selectedProduct = (code) => {
-      this.setState ({selectedProductCode:code});
+      const editProductNew = this.state.products.filter (v => v.code == code);
+      this.setState ({nam: editProductNew[0].nam, price: editProductNew[0].price,
+        url: editProductNew[0].url, remainder: editProductNew[0].remainder,
+        code: editProductNew[0].code, selectedProductCode:code, workMode: 4 });
     };
  
     deleteProduct = (code) => {
       const newProducts = this.state.products.filter (v => v.code !== code);
-      this.setState ({products: newProducts});
+      this.setState ({products: newProducts, workMode:1,});
     };
 
     editProduct = (code) => {      
       const editProductNew = this.state.products.filter (v => v.code == code);
       this.setState ({workMode:2, nam: editProductNew[0].nam, price: editProductNew[0].price,
-        url: editProductNew[0].url, remainder: editProductNew[0].remainder,
-        code: editProductNew[0].code, });
+        url: editProductNew[0].url, remainder: editProductNew[0].remainder, 
+        code: editProductNew[0].code, selectedProductCode:code,});
     };
 
     addNewProduct = () => {
-      this.setState ({workMode:3, nam: '', price: '', url:'', remainder: '', code: 0,});
+      this.setState ({workMode:3, nam: '', price: '', url:'', remainder: '', code: 0, selectedProductCode:'',
+      permission: false,});
     };
 
     cancelProduct = () => {
-      this.setState ({workMode:1});
+      this.setState ({workMode:1, permission: true,});
     };
 
     addNewProductCard = (Product) => {
       const newProducts = this.state.products.slice();
       newProducts.push (Product);
-      this.setState ({products: newProducts, workMode:1});
+      this.setState ({products: newProducts, workMode:1, permission: true,});
     };
 
     saveProduct = (productSave) => {
@@ -70,8 +75,17 @@ class Ishop extends React.Component {
           }
         }
         let newProduct =  flip (this.state.products, productSave.code);
-        this.setState({products: newProduct, workMode: 1});
+        this.setState({products: newProduct, workMode: 1, permission: true,});
 
+    };
+
+    editField = (value) => {
+      let bool = value === this.state.nam||
+                 value === this.state.nam||
+                 value === this.state.nam||
+                 value === this.state.nam;
+                 
+      this.setState({permission: bool});
     };
 
     render () {
@@ -82,17 +96,8 @@ class Ishop extends React.Component {
           remainder={v.remainder} isSelected={v.code === this.state.selectedProductCode}
           cbDeleteProduct={this.deleteProduct}
           cbSelectedProduct={this.selectedProduct} cbEditProduct={this.editProduct} 
-          workMode={this.state.workMode}
-          
-        />
+          workMode={this.state.workMode} permission={this.state.permission} />
       );      
-
-      const cardCode=this.state.products.map( v =>    
-        <Card key={v.code} nam={v.nam} price={v.price}
-          remainder={v.remainder} cbSelectedProduct={this.selectedProduct}
-          isSelected={v.code === this.state.selectedProductCode} workMode={this.state.workMode}
-          cbEditProductNew={this.state.editProductNew}/>      
-      );
 
       return (
       <div>
@@ -108,26 +113,29 @@ class Ishop extends React.Component {
             {productsCode}
           </tbody>
         </table>        
-        {(this.state.workMode==1)&& [
-        <input className='NewProduct' type='button' value='новый продукт' onClick={this.addNewProduct}
-          key={Math.random}/>,
-          [cardCode]]}
+        {(this.state.workMode==1||this.state.workMode==4)&& 
+        <input className='NewProduct' type='button' disabled={!this.state.permission} value='новый продукт' onClick={this.addNewProduct}
+          key={Math.random}/>
+        }
+        {(this.state.workMode==4)&&
+          <Card key={this.state.code} nam={this.state.nam} price={this.state.price}
+          remainder={this.state.remainder} cbSelectedProduct={this.selectedProduct}
+          isSelected={this.state.code === this.state.selectedProductCode} workMode={this.state.workMode} /> 
+        }
         {(this.state.workMode==2)&&
           <Card workMode={this.state.workMode} cbCancelProduct={this.cancelProduct}
-           cbEditProductNew={this.state.editProductNew}
-           cbNam={this.state.nam} cbUrl={this.state.url}
-           cbPrice={this.state.price} cbRemainder={this.state.remainder} 
-           cbCode={this.state.code} cbSaveProduct={this.saveProduct}/>
+           nam={this.state.nam} url={this.state.url} key={this.state.code}
+           price={this.state.price} remainder={this.state.remainder} 
+           code={this.state.code} cbSaveProduct={this.saveProduct} cbEditField={this.editField}
+           permission={this.state.permission}/>
         } 
         {(this.state.workMode==3)&&
           <Card workMode={this.state.workMode} cbCancelProduct={this.cancelProduct}
-           cbEditProductNew={this.state.editProductNew} cbNam={this.state.nam} cbUrl={this.state.url}
-           cbPrice={this.state.price} cbRemainder={this.state.remainder} 
-           cbCode={this.state.code}  cbAddNewProductCard={this.addNewProductCard} /> 
-        } 
-        
-      </div>     
-                 
+           nam={this.state.nam} url={this.state.url}
+           price={this.state.price} remainder={this.state.remainder} cbEditField={this.editField}
+           code={this.state.code}  cbAddNewProductCard={this.addNewProductCard} permission={this.state.permission} /> 
+        }         
+      </div>    
       );
     }
 }

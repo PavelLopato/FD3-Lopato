@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import './Card.css';
 
@@ -13,21 +13,17 @@ class Card extends  React.Component {
         isSelected: PropTypes.bool,
         workMode: PropTypes.number,
         cbCancelProduct: PropTypes.func,
-        cbNam: PropTypes.string,
-        cbPrice: PropTypes.string,
-        cbUrl: PropTypes.string,
-        cbRemainder: PropTypes.string,
-        cbCode: PropTypes.number,
         cbAddNewProductCard: PropTypes.func,
-        cbSaveProduct: PropTypes.func,    
+        cbSaveProduct: PropTypes.func, 
+        cbEditField: PropTypes.func,
     };  
 
     state = {
-      nam: this.props.cbNam,
-      price: this.props.cbPrice,
-      url: this.props.cbUrl,
-      remainder: this.props.cbRemainder,
-      code: this.props.cbCode,
+      nam: this.props.nam,
+      price: this.props.price,
+      url: this.props.url,
+      remainder: this.props.remainder,
+      code: this.props.code,
       namEror: '',
       urlEror: '',
       priceEror: '',
@@ -44,19 +40,23 @@ class Card extends  React.Component {
     };
 
     namChanged = (eo) => {
-      this.setState ({nam: eo.target.value}, this.validate);
+      this.setState ({nam: eo.target.value},  this.validate);
+      this.props.cbEditField (eo.target.value);
     };
 
     urlChanged  = (eo) => {
       this.setState ({url: eo.target.value}, this.validate);
+      this.props.cbEditField (eo.target.value);
     };
 
     priceChanged  = (eo) => {
       this.setState ({price: eo.target.value}, this.validate);
+      this.props.cbEditField (eo.target.value);      
     };
 
     remainderChanged = (eo) => {
       this.setState ({remainder: eo.target.value}, this.validate);
+      this.props.cbEditField (eo.target.value);
     };
 
     validate = () => {
@@ -101,23 +101,23 @@ class Card extends  React.Component {
 
     render() { 
 
-      if ( this.props.workMode == 1 ){
+      if ( this.props.workMode == 4 ){
 
       return (
         <div>{
           (this.props.isSelected) &&
-          <div className='CARD' key={this.props.code}>
-            <div className='hEADER'> {this.props.nam} </div>
-            <div className='nAM'> {"название: " + this.props.nam} </div>
+          <div className='CARD' key={this.state.code}>
+            <div className='hEADER'> {this.state.nam} </div>
+            <div className='nAM'> {"название: " + this.state.nam} </div>
             <div className='pRICE'> {"цена: " + this.props.price} </div>
-            <div className='rEMAINDER'> {"остаток на складе: " + this.props.remainder} </div>     
+            <div className='rEMAINDER'> {"остаток на складе: " + this.state.remainder} </div>     
           </div>          
         } </div>
       )
 
       } else if ( this.props.workMode == 2 ){
         return (
-          <div className='CARD'>
+          <div className='CARD' key={this.props.code}>
             <span className='hEADER'>Edit existing Product</span>
             <br/>                             
             <span>Название  </span>
