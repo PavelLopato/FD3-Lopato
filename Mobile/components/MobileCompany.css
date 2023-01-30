@@ -1,0 +1,16 @@
+﻿table.MobileCompanyTable {
+  border-collapse: collapse;
+}
+
+table.MobileCompanyTable td {
+  border-top:  solid black 1px;
+  text-align: center;
+}
+
+th {
+  padding: 5px;
+}
+
+th.edit {
+  padding-right: 30px;
+}
